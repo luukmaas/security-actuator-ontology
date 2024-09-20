@@ -1,0 +1,748 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://d3fend.mitre.org/ontologies/d3fend.owl#"
+     xml:base="http://d3fend.mitre.org/ontologies/d3fend.owl"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+     xmlns:d3fend="http://d3fend.mitre.org/ontologies/d3fend.owl#"
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     xmlns:sao="http://example.org/ontology/">
+
+    <owl:Ontology rdf:about="http://example.org/ontology">
+        <dcterms:title>Security Actuators</dcterms:title>
+        <owl:versionInfo>0.0.1</owl:versionInfo>
+    </owl:Ontology>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Abstract Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- http://example.org/ontology/SecurityActuator -->
+
+    <owl:Class rdf:about="http://example.org/ontology/SecurityActuator">
+        <rdfs:label>Security Actuator</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/AccessControlActuator -->
+
+    <owl:Class rdf:about="http://example.org/ontology/AccessControlActuator">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/SecurityActuator"/>
+        <rdfs:label>Access Control Actuator</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/DataSecurityActuator -->
+
+    <owl:Class rdf:about="http://example.org/ontology/DataSecurityActuator">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/SecurityActuator"/>
+        <rdfs:label>Data Security Actuator</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/EndpointSecurityActuator -->
+
+    <owl:Class rdf:about="http://example.org/ontology/EndpointSecurityActuator">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/SecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Endpoint Security Actuator</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/ManagementMonitoringActuator -->
+
+    <owl:Class rdf:about="http://example.org/ontology/ManagementMonitoringActuator">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/SecurityActuator"/>
+        <rdfs:label>Management and Monitoring Actuator</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/NetworkSecurityActuator -->
+
+    <owl:Class rdf:about="http://example.org/ontology/NetworkSecurityActuator">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/SecurityActuator"/>
+        <rdfs:label>Network Security Actuator</rdfs:label>
+    </owl:Class>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#AuthenticationServer -->
+    <!-- This class is originally from the D3FEND ontology, but extended for SAO. -->
+
+    <owl:Class rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#AuthenticationServer">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Server"/>
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/AccessControlActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#CredentialEviction"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#CredentialHardening"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#RestoreUserAccountAccess"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#UserBehaviorAnalysis"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Network"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#UserAccount"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition>An authentication server provides a network service that applications use to authenticate the credentials, usually account names and passwords, of their users. When a client submits a valid set of credentials, it receives a cryptographic ticket that it can subsequently use to access various services. Major authentication algorithms include passwords, Kerberos, and public key encryption.</definition>
+        <rdfs:isDefinedBy rdf:resource="http://dbpedia.org/resource/Authentication_server"/>
+        <rdfs:label>Authentication Server</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/EncryptionTool -->
+
+    <owl:Class rdf:about="http://example.org/ontology/EncryptionTool">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/DataSecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileEncryption"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#File"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Encryption Tool</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/BackupRecoverySystem -->
+
+    <owl:Class rdf:about="http://example.org/ontology/BackupRecoverySystem">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/DataSecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#RestoreObject"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#ConfigurationResource"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Credential"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Database"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#File"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Software"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Backup and Recovery System</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/AntiMalwareSoftware -->
+
+    <owl:Class rdf:about="http://example.org/ontology/AntiMalwareSoftware">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/EndpointSecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileAnalysis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#File"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Anti-Malware Software</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/EndpointDetectionResponse -->
+
+    <owl:Class rdf:about="http://example.org/ontology/EndpointDetectionResponse">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/EndpointSecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#FileAnalysis"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkTrafficAnalysis"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#PlatformMonitoring"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#ProcessAnalysis"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#UserBehaviorAnalysis"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Endpoint Detection and Response</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/SIEMSystem -->
+
+    <owl:Class rdf:about="http://example.org/ontology/SIEMSystem">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/ManagementMonitoringActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#OperatingSystemMonitoring"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkTrafficAnalysis"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Network"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Security Information and Event Management (SIEM) System</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/PatchManagementSystem -->
+
+    <owl:Class rdf:about="http://example.org/ontology/PatchManagementSystem">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/ManagementMonitoringActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#SoftwareUpdate"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Software"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Patch Management System</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/SecurityPolicyManager -->
+
+    <owl:Class rdf:about="http://example.org/ontology/SecurityPolicyManager">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/ManagementMonitoringActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkTrafficPolicyMapping"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#DomainTrustPolicy"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#StrongPasswordPolicy"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Network"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Security Policy Manager</rdfs:label>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/ThreatIntelligencePlatform -->
+
+    <owl:Class rdf:about="http://example.org/ontology/ThreatIntelligencePlatform">
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/ManagementMonitoringActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#IdentifierActivityAnalysis"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkTrafficSignatureAnalysis"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Network"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Threat Intelligence Platform</rdfs:label>
+    </owl:Class>
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#Firewall -->
+    <!-- This class is originally from the D3FEND ontology, but extended for SAO. -->
+
+    <owl:Class rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Firewall">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkNode"/>
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/NetworkSecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkTrafficFiltering"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition>In computing, a firewall is a network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules. A firewall typically establishes a barrier between a trusted internal network and untrusted external network, such as the Internet. Firewalls are often categorized as either network firewalls or host-based firewalls. Network firewalls filter traffic between two or more networks and run on network hardware. Host-based firewalls run on host computers and control network traffic in and out of those machines. This definition refers to network firewalls.</definition>
+        <rdfs:label>Firewall</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/Firewall_(computing)"/>
+        <skos:altLabel>Network Firewall</skos:altLabel>
+    </owl:Class>
+
+    <!-- http://example.org/ontology/NetworkFirewall -->
+
+    <owl:Class rdf:about="http://example.org/ontology/NetworkFirewall">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Firewall"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Network"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label>Network Firewall</rdfs:label>
+    </owl:Class>
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#Host-basedFirewall -->
+    <!-- This class is originally from the D3FEND ontology, but extended for SAO. -->
+
+    <owl:Class rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#Host-basedFirewall">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#SystemSoftware"/>
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Firewall"/>
+        <rdfs:label>Host-Based Firewall</rdfs:label>
+    </owl:Class>
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#ApplicationLayerFirewall -->
+    <!-- This class is originally from the D3FEND ontology, but extended for SAO. -->
+
+    <owl:Class rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#ApplicationLayerFirewall">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Firewall"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Application"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition>An application firewall is a form of firewall that controls input, output, and/or access from, to, or by an application or service. It operates by monitoring and potentially blocking the input, output, or system service calls that do not meet the configured policy of the firewall. The application firewall is typically built to control all network traffic on any OSI layer up to the application layer. It is able to control applications or services specifically, unlike a stateful network firewall, which is - without additional software - unable to control network traffic regarding a specific application. There are two primary categories of application firewalls, network-based application firewalls and host-based application firewalls.</definition>
+        <rdfs:isDefinedBy rdf:resource="http://dbpedia.org/resource/Application_firewall"/>
+        <rdfs:label>Application Layer Firewall</rdfs:label>
+        <skos:altLabel>Application Firewall</skos:altLabel>
+    </owl:Class>
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#IntrusionDetectionSystem -->
+    <!-- This class is originally from the D3FEND ontology, but extended for SAO. -->
+
+    <owl:Class rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#IntrusionDetectionSystem">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#DigitalInformationBearer"/>
+        <rdfs:subClassOf rdf:resource="http://example.org/ontology/NetworkSecurityActuator"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/protects"/>
+                <owl:someValuesFrom rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Network"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://example.org/ontology/performs"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#OperatingSystemMonitoring"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkTrafficAnalysis"/>
+                            <rdf:Description rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#UserBehaviorAnalysis"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <definition>An intrusion detection system (IDS) is a device or software application that monitors a network or systems for malicious activity or policy violations. Any intrusion activity or violation is typically reported either to an administrator or collected centrally using a security information and event management (SIEM) system. A SIEM system combines outputs from multiple sources and uses alarm filtering techniques to distinguish malicious activity from false alarms.</definition>
+        <rdfs:isDefinedBy rdf:resource="http://dbpedia.org/resource/Intrusion_detection_system"/>
+        <rdfs:label>Intrusion Detection System</rdfs:label>
+        <skos:altLabel>IDS</skos:altLabel>
+    </owl:Class>
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#IntrusionPreventionSystem -->
+    <!-- This class is originally from the D3FEND ontology, but extended for SAO. -->
+
+    <owl:Class rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#IntrusionPreventionSystem">
+        <rdfs:subClassOf rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#IntrusionDetectionSystem"/>
+        <definition>Intrusion prevention systems (IPS), also known as intrusion detection and prevention systems (IDPS), are network security appliances that monitor network or system activities for malicious activity. The main functions of intrusion prevention systems are to identify malicious activity, log information about this activity, report it and attempt to block or stop it. Intrusion prevention systems are considered extensions of intrusion detection systems because they both monitor network traffic and/or system activities for malicious activity. The main differences are, unlike intrusion detection systems, intrusion prevention systems are placed in-line and are able to actively prevent or block intrusions that are detected. IPS can take such actions as sending an alarm, dropping detected malicious packets, resetting a connection or blocking traffic from the offending IP address. An IPS also can correct cyclic redundancy check (CRC) errors, defragment packet streams, mitigate TCP sequencing issues, and clean up unwanted transport and network layer options.</definition>
+        <rdfs:isDefinedBy rdf:resource="http://dbpedia.org/resource/Intrusion_detection_system#Intrusion_prevention"/>
+        <rdfs:label>Intrusion Prevention System</rdfs:label>
+        <rdfs:seeAlso rdf:resource="http://dbpedia.org/resource/Intrusion_detection_system"/>
+        <skos:altLabel>IDPS</skos:altLabel>
+        <skos:altLabel>IPS</skos:altLabel>
+        <skos:altLabel>Intrusion Detection and Prevention System</skos:altLabel>
+    </owl:Class>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:ObjectProperty rdf:about="sao:performs">
+        <rdfs:domain rdf:resource="sao:SecurityActuator"/>
+        <rdfs:range rdf:resource="d3fend:DefensiveTechnique"/>
+        <definition>x performs y: Security Actuator x performs Technique y</definition>
+        <rdfs:label>performs</rdfs:label>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="sao:is-performed-by">
+        <definition>x is performed y: Technique x is performed Security Actuator y</definition>
+        <rdfs:label>is-performed-by</rdfs:label>
+        <owl:inverseOf rdf:resource="sao:performs"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="sao:protects">
+        <rdfs:domain rdf:resource="sao:SecurityActuator"/>
+        <rdfs:range rdf:resource="d3fend:DigitalArtifact"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="sao:protects"/>
+            <rdf:Description rdf:about="d3fend:contains"/>
+        </owl:propertyChainAxiom>
+        <definition>x protects y: Security Actuator x protects DigitalArtifact y</definition>
+        <rdfs:label>protects</rdfs:label>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="sao:is-protected-by">
+        <owl:inverseOf rdf:resource="sao:protects"/>
+        <definition>x is protected by y: DigitalArtifact x is protected by Security Actuator x</definition>
+        <rdfs:label>is-protected-by</rdfs:label>
+    </owl:ObjectProperty>
+
+    <!--
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#AntiMalwareSoftware-FileServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#AntiMalwareSoftware-FileServerA">
+        <rdf:type rdf:resource="http://example.org/ontology/AntiMalwareSoftware"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileServerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#AntiMalwareSoftware-LaptopComputerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#AntiMalwareSoftware-LaptopComputerA">
+        <rdf:type rdf:resource="http://example.org/ontology/AntiMalwareSoftware"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#AntiMalwareSoftware-LaptopComputerB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#AntiMalwareSoftware-LaptopComputerB">
+        <rdf:type rdf:resource="http://example.org/ontology/AntiMalwareSoftware"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerB"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#AuthenticationServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#AuthenticationServerA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#AuthenticationServer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#BackupAndRecoverySystem-FileServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#BackupAndRecoverySystem-FileServerA">
+        <rdf:type rdf:resource="http://example.org/ontology/BackupRecoverySystem"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileServerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#DatabaseServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#DatabaseServerA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#DatabaseServer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#EDR-LaptopComputerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#EDR-LaptopComputerA">
+        <rdf:type rdf:resource="http://example.org/ontology/EndpointDetectionResponse"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#EDR-LaptopComputerB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#EDR-LaptopComputerB">
+        <rdf:type rdf:resource="http://example.org/ontology/EndpointDetectionResponse"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerB"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#EncryptionTool-FileServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#EncryptionTool-FileServerA">
+        <rdf:type rdf:resource="http://example.org/ontology/EncryptionTool"/>
+        <sao:performs>
+            <rdf:Description rdf:nodeID="_:genid1188">
+                <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileEncryption"/>
+                <encrypts rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileA"/>
+            </rdf:Description>
+        </sao:performs>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileServerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#FileA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#FileA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#File"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#FileServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#FileServerA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileServer"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#IntranetNetworkA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#IntranetNetworkA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#IntranetNetwork"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerB"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkB"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkFirewallB"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#RouterA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#WirelessRouterA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputerB">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LaptopComputer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetwork"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#AuthenticationServerA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#DatabaseServerA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#FileServerA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#SwitchA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#WebApplicationServerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkB">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetwork"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#SwitchB"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerA"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerB"/>
+        <contains rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerC"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkFirewallA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkFirewallA">
+        <rdf:type rdf:resource="http://example.org/ontology/NetworkFirewall"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#IntranetNetworkA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkFirewallB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#NetworkFirewallB">
+        <rdf:type rdf:resource="http://example.org/ontology/NetworkFirewall"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#LocalAreaNetworkA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#PatchManagementSystem-WebApplicationServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#PatchManagementSystem-WebApplicationServerA">
+        <rdf:type rdf:resource="http://example.org/ontology/PatchManagementSystem"/>
+        <sao:protects rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#WebApplicationServerA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#RouterA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#RouterA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Router"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#SwitchA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#SwitchA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Switch"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#SwitchB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#SwitchB">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#Switch"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerB -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerB">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerC -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputerC">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#ThinClientComputer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#WebApplicationServerA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#WebApplicationServerA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#WebApplicationServer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://d3fend.mitre.org/ontologies/d3fend.owl#WirelessRouterA -->
+
+    <owl:NamedIndividual rdf:about="http://d3fend.mitre.org/ontologies/d3fend.owl#WirelessRouterA">
+        <rdf:type rdf:resource="http://d3fend.mitre.org/ontologies/d3fend.owl#WirelessRouter"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
