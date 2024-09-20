@@ -1,2 +1,2 @@
-# security-actuator-ontology
-Security Actuator Ontology
+# Security Actuator Ontology (SAO)
+The Security Actuator Ontology.
